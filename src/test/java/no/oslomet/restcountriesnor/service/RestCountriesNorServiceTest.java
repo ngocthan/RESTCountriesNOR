@@ -22,12 +22,16 @@ public class RestCountriesNorServiceTest {
     private RestCountriesNorApi restCountriesNorApi;
 
     @Test
-    public void getNorData_returnsArray() throws Exception {
+    public void getNorData_returnsJsonObject() throws Exception {
         JSONArray norDataArray = createNorDataArrayTestData();
         when(restCountriesNorApi.getNorData()).thenReturn(norDataArray);
 
         String norData = restCountriesNorService.getNorData();
-        assertTrue(!norData.isEmpty());
+        JSONObject json = new JSONObject(norData);
+
+        assertTrue(json.get("name").equals("Norway"));
+        assertTrue(json.get("topLevelDomain").equals(".no"));
+        assertTrue(json.get("capital").equals("Oslo"));
     }
 
     private JSONArray createNorDataArrayTestData() throws JSONException {
